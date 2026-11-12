@@ -1,0 +1,3 @@
+# Market snapshot must stay byte-for-byte identical so its SHA-256 matches data/raw/SOURCES.md
+data/raw/market/* -text
+reference/* -text

@@ -1,0 +1,12 @@
+# Inputs downloaded by fetch_data.py (copyrighted / large; SOURCES.md records URL + SHA-256)
+data/raw/reports/
+data/raw/damodaran/
+# Rebuildable outputs: regenerate with `python run.py --fresh`
+data/curiosity.duckdb
+data/curiosity.duckdb.wal
+report/*
+!report/final_review.md
+.venv/
+__pycache__/
+*.pyc
+.Rhistory
