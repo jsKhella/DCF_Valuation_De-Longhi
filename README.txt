@@ -33,7 +33,7 @@ DATA
 | De'Longhi annual reports FY2021–25, H1 2026 interim | Financial statements |
 | Aswath Damodaran (NYU Stern)                        | Sector betas, multiples, country risk premiums, tax rates |
 | European Central Bank                               | Italian and German 10Y government bond yields |
-| Yahoo Finance | Share price                         |
+| Yahoo Finance                                       | Share price                         |
 Full URLs, download dates and checksums are in "REPRODUCIBILITY/data/raw/SOURCES.md".
 
 
