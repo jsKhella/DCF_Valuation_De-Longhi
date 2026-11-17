@@ -13,7 +13,7 @@ The result heavily depends on the industry beta. With the global-sector beta, WA
 
 DELIVERABLES
 - 📄 Valuation note.pdf: AN investment-style write-up
-- 📊 Workbook.csv: statements, WACC, forecast, DCF, sensitivities, Monte Carlo, checks
+- 📊 Workbook.xlsx: statements, WACC, forecast, DCF, sensitivities, Monte Carlo, checks
 - 🎞️ Process Guide.pdf
 
 
