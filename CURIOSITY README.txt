@@ -1,5 +1,5 @@
-CURIOSITY README (Claude's synthesis)
-A research pipeline run by Claude Code. One question per project, answered in about an afternoon with DuckDB SQL plus Python, and delivered as one Excel report. Nothing is guessed: definitions and assumptions are agreed with the human BEFORE any analysis, and every number is verified independently BEFORE the human sees it.
+CURIOSITY README (Claude's synthesis reviewed by the author, me)
+CURIOSITY is research pipeline run by Claude Code. One question per project, answered in about an afternoon with DuckDB SQL plus Python, and delivered as one Excel report. Nothing is guessed: definitions and assumptions are agreed with the human BEFORE any analysis, and every number is verified independently BEFORE the human sees it.
 
 =====================================================================
 THE PRINCIPLES BEHIND IT ALL
