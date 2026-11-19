@@ -47,7 +47,7 @@ Fixed format of research_brief.md
 1b) PLANNER (Opus) checks the data really exists, then writes the plan
 Part A, Data feasibility (stop if it fails):
  1. Find candidate sources, preferring official/open ones with a clear licence.
- 2. Actually download into data/raw/ (no login, ~2 GB max); record URL, date, size, SHA-256 and licence in SOURCES.md.
+ 2. Actually downloads into data/raw/ (no login, ~2 GB max); record URL, date, size, SHA-256 and licence in SOURCES.md.
  3. Load into DuckDB (raw_ tables, via sql/00_load_raw.sql registered as step 0 in run.py) and profile: row counts, columns/types, null rates, min/max, candidate key uniqueness.
  4. Coverage table: for every definition (brief section 2) and every element of the answer format (section 6), name the exact table and columns that compute it, or mark NOT COVERED.
  5. Verdict: GO / GO WITH CHANGES (each change becomes a decision for the human) / NO-GO (explain, propose the closest answerable question, write no plan).
@@ -69,11 +69,11 @@ PHASE 2: EXECUTE AND VERIFY, ONE STEP AT A TIME
 For each step N, in order: Executor -> Verifier -> verdict. Step N+1 never starts until step N is PASS or PASS WITH NOTES.
 
 2a) EXECUTOR (Sonnet or Opus, per the step's tag) does exactly ONE step, in this order:
- 1. Write the checks first (using the shared helpers in checks/_lib.py, so every check prints PASS/FAIL with actual vs expected and the script exits non-zero on any failure) and run them once: they must fail, proving they can fail.
- 2. Write the code in small pieces (sql/NN_*.sql, py/NN_*.py), running each piece before writing the next.
- 3. Register the step in run.py, the single pipeline runner.
- 4. Rebuild from scratch (python run.py --fresh --through NN) and run the checks until all pass.
- 5. Write its half of the evidence pack (evidence/stepNN.md): what was done, files, row flow, check output, 3-5 spot-check cases, deviations.
+ 1. Writes the checks first (using the shared helpers in checks/_lib.py, so every check prints PASS/FAIL with actual vs expected and the script exits non-zero on any failure) and runs them once: they must fail, proving they can fail.
+ 2. Writes the code in small pieces (sql/NN_*.sql, py/NN_*.py), running each piece before writing the next.
+ 3. Registers the step in run.py, the single pipeline runner.
+ 4. Rebuilds from scratch (python run.py --fresh --through NN) and runs the checks until all pass.
+ 5. Writes its half of the evidence pack (evidence/stepNN.md): what was done, files, row flow, check output, 3-5 spot-check cases, deviations.
  Returns one line only: DONE, BLOCKED: <reason>, or CHECK DISPUTED: <check>.
 
 HARD RULES:
@@ -86,17 +86,17 @@ HARD RULES:
  - Portable: pathlib, relative paths, only duckdb / pandas / openpyxl (plus what the plan names).
 
 2b) VERIFIER (Opus, fresh context, sees only files, never the Executor's reasoning) tries to BREAK the step, not confirm it. It never edits Executor files. Levels, in order:
- V1 Reproduce: rebuild from zero twice, compare fingerprints (row count + order-independent hash sum); rerun ALL earlier steps' checks (regression).
- V2 Audit the checks: every planned check present and not weakened; pasted output matches a real run.
- V3 Recompute blind: BEFORE reading the code, recompute the step's 1-3 headline numbers by a different method (other tool, from raw_ tables, different path). Counts must match exactly; sums/rates within 1e-9. Disagreements are reconciled down to the record.
- V4 Review the code against the definitions: join fan-out, silent drops, NULL handling, date boundaries, integer division, wrong denominators, double counting, filter order; plus documentation is true and nothing is hand-typed.
+ V1 Reproduces the pipeline: rebuilds from zero twice, compares fingerprints (row count + order-independent hash sum); reruns ALL earlier steps' checks (regression).
+ V2 Audits the checks: every planned check must still be present and not weakened; pasted output matches a real run.
+ V3 Recomputes blind: BEFORE reading the code, recomputes the step's 1-3 headline numbers by a different method (other tool, from raw_ tables, different path). Counts must match exactly; sums/rates within 1e-9. Disagreements are reconciled down to the record.
+ V4 Reviews the code against the definitions: join fan-out, silent drops, NULL handling, date boundaries, integer division, wrong denominators, double counting, filter order; nothing is hand-typed by an AI.
  V5 Smell tests: magnitudes, signs, distribution shape vs the plan's ranges and the human's pre-registered expectations. A contradiction is not a failure; it is tagged SURPRISE.
- V6 Sensitivity: for each threshold/modelling choice, rerun with reasonable alternatives; if the conclusion flips, tag FRAGILE.
- V7 Trace spot-checks: the Executor's cases plus 2 of its own (random with a fixed seed).
+ V6 Sensitivity: for each threshold/modelling choice, reruns with reasonable alternatives; if the conclusion flips, tags it FRAGILE.
+ V7 Traces spot-checks: the Executor's cases plus 2 of its own (random with a fixed seed).
  Final-report step only, extra levels:
- 1. Read back the Excel with openpyxl and compare every numeric cell to its source query; check sheets/columns/units/precision vs brief section 6.
- 2. Trace every number in the headline sentence to a verified step.
- 3. Rebuild everything (run.py --fresh), regenerate the workbook, run every check.
+ 1. Reads back the Excel with openpyxl and compare every numeric cell to its source query; check sheets/columns/units/precision vs brief section 6.
+ 2. Traces every number in the headline sentence to a verified step.
+ 3. Rebuilds everything (run.py --fresh), regenerates the workbook, runs every check.
 
  Verdicts:
  - PASS: every level clean. Orchestrator posts one line and continues automatically.
